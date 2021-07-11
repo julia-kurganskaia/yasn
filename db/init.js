@@ -5,11 +5,14 @@ const file = __dirname + "/db.sqlite";
 
 const db = new sqlite3.Database(file);
 
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
+
 const users = [
-  {name: "Adam", email: "adam@gmail.com", status: "Hello World!", password: "adam",},
-  {name: "Eva", email: "eva@gmail.com", status: "I love apples!", password: "eva",},
-  {name: "Dave", email: "dave@gmail.com", status: "Who I am?", password: "dave",},
-  {name: "Margo", email: "margo@gmail.com", status: "Learn JS with me!", password: "margo",},
+  {name: "Adam", email: "adam@gmail.com", status: "Hello World!", password: bcrypt.hashSync("adam", saltRounds),},
+  {name: "Eva", email: "eva@gmail.com", status: "I love apples!", password: bcrypt.hashSync("eva", saltRounds),},
+  {name: "Dave", email: "dave@gmail.com", status: "Who I am?", password: bcrypt.hashSync("dave", saltRounds),},
+  {name: "Margo", email: "margo@gmail.com", status: "Learn JS with me!", password: bcrypt.hashSync("margo", saltRounds),},
 ];
 
 const tweets = [
