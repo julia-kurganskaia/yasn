@@ -1,6 +1,6 @@
 //@ts-check
 
-const sqlite3 = require("sqlite3").verbose();
+const sqlite3 = require("sqlite3");
 const file = __dirname + "/db.sqlite";
 
 const db = new sqlite3.Database(file);
@@ -19,7 +19,7 @@ const tweets = [
   {tweet: "Life is good!", date: "2020-05-25 23:59", user_id: 1,},
   {tweet: "I bought a boat!", date: "2021-06-26 14:34", user_id: 3,},
   {tweet: "Hmmm... It's something...", date: "2019-01-02 17:23", user_id: 4,},
-  {tweet: "Well, I have cat <3", date: "2021-11-10 11:34", user_id: 2,},
+  {tweet: "Well, I have a cat <3", date: "2021-11-10 11:34", user_id: 2,},
 ];
 
 const followers = [
