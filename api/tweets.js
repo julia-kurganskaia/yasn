@@ -9,7 +9,7 @@ const db = new sqlite3.Database(file);
 
 router.get("/:userName/tweets", (req, res) => {
   const name = req.params.userName;
-  const sql = 'SELECT tweet FROM tweets WHERE user_id = (SELECT id FROM users WHERE lower(name) = ?)';
+  const sql = 'SELECT tweet, date FROM tweets WHERE user_id = (SELECT id FROM users WHERE lower(name) = ?) ORDER BY date DESC';
 
   db.all(sql, [name], (err, rows) => {
     if (err) {
