@@ -36,7 +36,7 @@ router.post("/auth", (req, res) => {
           if (result) {
             res.json({
               success: true,
-              token: jwt.sign({user_id: user.id}, SECRET_KEY, { algorithm: 'HS256'}),
+              token: jwt.sign({user_id: user.id}, SECRET_KEY, {algorithm: 'HS256', expiresIn: "1d"}),
             });
           } else {
             res.json({success: false,});
