@@ -23,4 +23,29 @@ router.get("/tweets", jwt({secret: SECRET_KEY, algorithms: ['HS256'], credential
   });
 });
 
+router.post("/tweets", jwt({secret: SECRET_KEY, algorithms: ['HS256'], credentialsRequired: false,},), (req, res) => {
+  const myTweet = req.body.tweet;
+  const userId = req.user.user_id;
+  const sql = "INSERT INTO tweets (tweet, date, user_id) VALUES (?, datetime('now') || 'Z', ?)";
+
+  db.run(sql, [myTweet, userId], function(err) {
+    if (err) {
+      console.log(err);
+      res.json("Something went wrong :(");
+      return;
+    }
+
+    const addedTweet = 'SELECT id, tweet, date, user_id FROM tweets WHERE id = ?';
+
+    db.get(addedTweet, [this.lastID], (err, row) => {
+      if (err) {
+        console.log(err);
+        res.json("Something went wrong :(");
+       }
+
+      res.json(row);
+    });
+  });
+});
+
 module.exports = router;
