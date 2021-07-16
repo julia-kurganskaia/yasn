@@ -9,20 +9,6 @@ const db = new sqlite3.Database(file);
 const jwt = require("express-jwt");
 const SECRET_KEY = 'mysecretkey12345';
 
-router.get("/:userName/tweets", (req, res) => {
-  const name = req.params.userName;
-  const sql = 'SELECT tweet, date FROM tweets WHERE user_id = (SELECT id FROM users WHERE lower(name) = ?) ORDER BY date DESC';
-
-  db.all(sql, [name], (err, rows) => {
-    if (err) {
-      console.log(err);
-      return;
-    }
-
-    res.json(rows);
-  });
-});
-
 router.get("/tweets", jwt({secret: SECRET_KEY, algorithms: ['HS256'], credentialsRequired: false,},), (req, res) => {
   const userId = req.user.user_id;
   const sql = 'SELECT tweet, date FROM tweets WHERE user_id = ? ORDER BY date DESC';
