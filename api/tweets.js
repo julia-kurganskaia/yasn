@@ -80,4 +80,21 @@ router.delete("/tweets/:id", jwt({secret: SECRET_KEY, algorithms: ['HS256']},), 
   });
 });
 
+router.get("/followee/tweets", jwt({secret: SECRET_KEY, algorithms: ['HS256']},), (req, res) => {
+  const userId = req.user.user_id;
+  const sql = `SELECT tweets.tweet
+               FROM followers
+               JOIN tweets ON followers.followee = tweets.user_id
+               WHERE followers.user_id = ?
+               ORDER BY date DESC`;
+
+  db.all(sql, [userId], (err, rows) => {
+    if (err) {
+      console.log(err);
+      return;
+    }
+    res.json(rows);
+  });
+})
+
 module.exports = router;
