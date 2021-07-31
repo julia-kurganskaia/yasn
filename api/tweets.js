@@ -82,7 +82,7 @@ router.delete("/tweets/:id", jwt({secret: SECRET_KEY, algorithms: ['HS256']},), 
 
 router.get("/followee", jwt({secret: SECRET_KEY, algorithms: ['HS256']},), (req, res) => {
   const userId = req.user.user_id;
-  const sql = `SELECT users.name
+  const sql = `SELECT users.id, users.name
                FROM followers
                JOIN users ON followers.followee = users.id
                WHERE followers.user_id = ?
