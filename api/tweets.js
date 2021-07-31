@@ -87,6 +87,7 @@ router.get("/followee", jwt({secret: SECRET_KEY, algorithms: ['HS256']},), (req,
                JOIN users ON followers.followee = users.id
                WHERE followers.user_id = ?
                ORDER BY name ASC`;
+
   db.all(sql, [userId], (err, rows) => {
     if (err) {
       console.log(err);
@@ -105,6 +106,20 @@ router.get("/followee/tweets", jwt({secret: SECRET_KEY, algorithms: ['HS256']},)
                ORDER BY date DESC`;
 
   db.all(sql, [userId], (err, rows) => {
+    if (err) {
+      console.log(err);
+      return;
+    }
+    res.json(rows);
+  });
+});
+
+router.put("/followee/:id", jwt({secret: SECRET_KEY, algorithms: ['HS256']},), (req, res) => {
+  const userId = req.user.user_id;
+  const followeeId = req.params.id;
+  const sql = `INSERT INTO followers (user_id, followee) VALUES (?, ?)`;
+
+  db.run(sql, [[userId], [followeeId]], (err, rows) => {
     if (err) {
       console.log(err);
       return;
